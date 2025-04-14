@@ -1,0 +1,42 @@
+events {}
+
+http {
+    server {
+        listen 8080;
+        server_name localhost;
+
+        # Redirect HTTP to HTTPS
+        return 301 https://$host:4343$request_uri;
+    }
+
+    server {
+        listen 4343 ssl;
+        server_name localhost;
+
+        ssl_certificate     /etc/nginx/ssl/cert.pem;
+        ssl_certificate_key /etc/nginx/ssl/privkey.pem;
+	root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+	
+	location ~ \.php$ {
+	    include fastcgi_params;
+	    fastcgi_pass php:9000;
+	    fastcgi_param SCRIPT_FILENAME /var/www/html$fastcgi_script_name; 
+	    fastcgi_index index.php;
+	}
+#	location ~ \.php$ {
+#    root           /var/www/wordpress;
+    #include        fastcgi_params;
+   # fastcgi_pass   php:9000;
+  #  fastcgi_index  index.php;
+ #   fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+#}
+
+
+
+    }
+}

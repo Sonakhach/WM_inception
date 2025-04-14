@@ -1,0 +1,33 @@
+events {}
+
+http {
+    # HTTP server on port 8080
+    server {
+        listen 8080;
+        server_name localhost;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
+
+    # HTTPS server on port 4343
+    server {
+        listen 4343 ssl;
+        server_name localhost;
+
+        ssl_certificate /etc/nginx/ssl/cert.pem;
+        ssl_certificate_key /etc/nginx/ssl/privkey.pem;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
+}
+
