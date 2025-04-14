@@ -13,8 +13,11 @@ RUN echo "memory_limit = 256M" > /usr/local/etc/php/conf.d/memlimit.ini
 
 WORKDIR /var/www/html
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+#COPY entrypoint.sh /entrypoint.sh
+#RUN chmod +x /entrypoint.sh
+
+COPY --chown=www-data:www-data entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm"]

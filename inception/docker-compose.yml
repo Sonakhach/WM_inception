@@ -46,6 +46,8 @@ services:
     restart: always
     volumes:
       - ./wordpress:/var/www/html
+      - ./php/entrypoint.sh:/entrypoint.sh
+      - ./.env:/inception/.env
     networks:
       - mynetwork
     depends_on:
